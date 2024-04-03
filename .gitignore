@@ -6,6 +6,8 @@
 *.lst
 *.vcd
 *.gtkw
+*.gds
+*.mag
 /env
 /venv
 /caravel
