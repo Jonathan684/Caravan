@@ -7,12 +7,10 @@
 | :exclamation: Important Note            |
 |-----------------------------------------|
 
-## Please fill in your project documentation in this README.md file 
+## Analog Chip
 
+The following project implements an analog circuit from which we want to extract samples with digital circuits, for example, schim triger, and then a counter so that they are later analyzed in the riscV. The riscV can then send the data to the outside of the chip by using the UART.
 
 :warning: | Use this sample project for analog user projects. 
-:---: | :---
-
----
 
 Refer to [README](docs/source/index.rst) for this sample project documentation. 
