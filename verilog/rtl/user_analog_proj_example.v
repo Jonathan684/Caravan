@@ -14,80 +14,33 @@
 // SPDX-License-Identifier: Apache-2.0
 
 `default_nettype none
-
-`include "example_por.v"
-
 /*
- * I/O mapping for analog
+ *-------------------------------------------------------------
  *
- * mprj_io[37]  io_in/out/oeb/in_3v3[26]  ---                    ---
- * mprj_io[36]  io_in/out/oeb/in_3v3[25]  ---                    ---
- * mprj_io[35]  io_in/out/oeb/in_3v3[24]  gpio_analog/noesd[17]  ---
- * mprj_io[34]  io_in/out/oeb/in_3v3[23]  gpio_analog/noesd[16]  ---
- * mprj_io[33]  io_in/out/oeb/in_3v3[22]  gpio_analog/noesd[15]  ---
- * mprj_io[32]  io_in/out/oeb/in_3v3[21]  gpio_analog/noesd[14]  ---
- * mprj_io[31]  io_in/out/oeb/in_3v3[20]  gpio_analog/noesd[13]  ---
- * mprj_io[30]  io_in/out/oeb/in_3v3[19]  gpio_analog/noesd[12]  ---
- * mprj_io[29]  io_in/out/oeb/in_3v3[18]  gpio_analog/noesd[11]  ---
- * mprj_io[28]  io_in/out/oeb/in_3v3[17]  gpio_analog/noesd[10]  ---
- * mprj_io[27]  io_in/out/oeb/in_3v3[16]  gpio_analog/noesd[9]   ---
- * mprj_io[26]  io_in/out/oeb/in_3v3[15]  gpio_analog/noesd[8]   ---
- * mprj_io[25]  io_in/out/oeb/in_3v3[14]  gpio_analog/noesd[7]   ---
- * mprj_io[24]  ---                       ---                    user_analog[10]
- * mprj_io[23]  ---                       ---                    user_analog[9]
- * mprj_io[22]  ---                       ---                    user_analog[8]
- * mprj_io[21]  ---                       ---                    user_analog[7]
- * mprj_io[20]  ---                       ---                    user_analog[6]  clamp[2]
- * mprj_io[19]  ---                       ---                    user_analog[5]  clamp[1]
- * mprj_io[18]  ---                       ---                    user_analog[4]  clamp[0]
- * mprj_io[17]  ---                       ---                    user_analog[3]
- * mprj_io[16]  ---                       ---                    user_analog[2]
- * mprj_io[15]  ---                       ---                    user_analog[1]
- * mprj_io[14]  ---                       ---                    user_analog[0]
- * mprj_io[13]  io_in/out/oeb/in_3v3[13]  gpio_analog/noesd[6]   ---
- * mprj_io[12]  io_in/out/oeb/in_3v3[12]  gpio_analog/noesd[5]   ---
- * mprj_io[11]  io_in/out/oeb/in_3v3[11]  gpio_analog/noesd[4]   ---
- * mprj_io[10]  io_in/out/oeb/in_3v3[10]  gpio_analog/noesd[3]   ---
- * mprj_io[9]   io_in/out/oeb/in_3v3[9]   gpio_analog/noesd[2]   ---
- * mprj_io[8]   io_in/out/oeb/in_3v3[8]   gpio_analog/noesd[1]   ---
- * mprj_io[7]   io_in/out/oeb/in_3v3[7]   gpio_analog/noesd[0]   ---
- * mprj_io[6]   io_in/out/oeb/in_3v3[6]   ---                    ---
- * mprj_io[5]   io_in/out/oeb/in_3v3[5]   ---                    ---
- * mprj_io[4]   io_in/out/oeb/in_3v3[4]   ---                    ---
- * mprj_io[3]   io_in/out/oeb/in_3v3[3]   ---                    ---
- * mprj_io[2]   io_in/out/oeb/in_3v3[2]   ---                    ---
- * mprj_io[1]   io_in/out/oeb/in_3v3[1]   ---                    ---
- * mprj_io[0]   io_in/out/oeb/in_3v3[0]   ---                    ---
+ * user_proj_example
  *
+ * This is an example of a (trivially simple) user project,
+ * showing how the user project can connect to the logic
+ * analyzer, the wishbone bus, and the I/O pads.
+ *
+ * This project generates an integer count, which is output
+ * on the user area GPIO pads (digital output only).  The
+ * wishbone connection allows the project to be controlled
+ * (start and stop) from the management SoC program.
+ *
+ * See the testbenches in directory "mprj_counter" for the
+ * example programs that drive this user project.  The three
+ * testbenches are "io_ports", "la_test1", and "la_test2".
+ *
+ *-------------------------------------------------------------
  */
 
-/*
- *----------------------------------------------------------------
- *
- * user_analog_proj_example
- *
- * This is an example of a (trivially simple) analog user project,
- * showing how the user project can connect to the I/O pads, both
- * the digital pads, the analog connection on the digital pads,
- * and the dedicated analog pins used as an additional power supply
- * input, with a connected ESD clamp.
- *
- * See the testbench in directory "mprj_por" for the example
- * program that drives this user project.
- *
- *----------------------------------------------------------------
- */
-
-module user_analog_proj_example (
+module user_analog_proj_example #(
+    parameter BITS = 16
+)(
 `ifdef USE_POWER_PINS
-    inout vdda1,	// User area 1 3.3V supply
-    inout vdda2,	// User area 2 3.3V supply
-    inout vssa1,	// User area 1 analog ground
-    inout vssa2,	// User area 2 analog ground
     inout vccd1,	// User area 1 1.8V supply
-    inout vccd2,	// User area 2 1.8v supply
     inout vssd1,	// User area 1 digital ground
-    inout vssd2,	// User area 2 digital ground
 `endif
 
     // Wishbone Slave ports (WB MI A)
@@ -108,114 +61,96 @@ module user_analog_proj_example (
     input  [127:0] la_oenb,
 
     // IOs
-    input  [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_in,
-    input  [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_in_3v3,
-    output [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_out,
-    output [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_oeb,
-
-    // GPIO-analog
-    inout [`MPRJ_IO_PADS-`ANALOG_PADS-10:0] gpio_analog,
-    inout [`MPRJ_IO_PADS-`ANALOG_PADS-10:0] gpio_noesd,
-
-    // Dedicated analog
-    inout [`ANALOG_PADS-1:0] io_analog,
-    inout [2:0] io_clamp_high,
-    inout [2:0] io_clamp_low,
-
-    // Clock
-    input   user_clock2,
+    input  [BITS-1:0] io_in,
+    output [BITS-1:0] io_out,
+    output [BITS-1:0] io_oeb
 
     // IRQ
-    output [2:0] irq
+    // output [2:0] irq
 );
-    wire [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_in;
-    wire [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_in_3v3;
-    wire [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_out;
-    wire [`MPRJ_IO_PADS-`ANALOG_PADS-1:0] io_oeb;
-    wire [`ANALOG_PADS-1:0] io_analog;
+    wire clk;
+    wire rst;
 
-    // wire [31:0] rdata; 
-    // wire [31:0] wdata;
+    wire [BITS-1:0] rdata; 
+    wire [BITS-1:0] wdata;
+    wire [BITS-1:0] count;
 
-    // wire valid;
-    // wire [3:0] wstrb;
-
-    wire isupply;	// Independent 3.3V supply
-    wire io16, io15, io12, io11;
+    wire valid;
+    wire [3:0] wstrb;
+    wire [BITS-1:0] la_write;
 
     // WB MI A
-    // assign valid = wbs_cyc_i && wbs_stb_i; 
-    // assign wstrb = wbs_sel_i & {4{wbs_we_i}};
-    // assign wbs_dat_o = rdata;
-    // assign wdata = wbs_dat_i;
+    assign valid = wbs_cyc_i && wbs_stb_i; 
+    assign wstrb = wbs_sel_i & {4{wbs_we_i}};
+    assign wbs_dat_o = {{(32-BITS){1'b0}}, rdata};
+    assign wdata = wbs_dat_i[BITS-1:0];
 
-    // IO --- unused (no need to connect to anything)
-    // assign io_out[`MPRJ_IO_PADS-`ANALOG_PADS-1:17] = 0;
-    // assign io_out[14:13] = 11'b0;
-    // assign io_out[10:0] = 11'b0;
-
-    // assign io_oeb[`MPRJ_IO_PADS-`ANALOG_PADS-1:17] = -1;
-    // assign io_oeb[14:13] = 11'b1;
-    // assign io_oeb[10:0] = 11'b1;
-
-    // IO --- enable outputs on 11, 12, 15, and 16
-    assign io_out[12:11] = {io12, io11};
-    assign io_oeb[12:11] = {vssd1, vssd1};
-
-    assign io_out[16:15] = {io16, io15};
-    assign io_oeb[16:15] = {vssd1, vssd1};
+    // IO
+    assign io_out = count;
+    assign io_oeb = {(BITS){rst}};
 
     // IRQ
-    assign irq = 3'b000;	// Unused
+    //assign irq = 3'b000;	// Unused
 
-    // LA --- unused (no need to connect to anything)
-    // assign la_data_out = {128{1'b0}};	// Unused
+    // LA
+    assign la_data_out = {{(128-BITS){1'b0}}, count};
+    // Assuming LA probes [63:32] are for controlling the count register  
+    assign la_write = ~la_oenb[63:64-BITS] & ~{BITS{valid}};
+    // Assuming LA probes [65:64] are for controlling the count clk & reset  
+    assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
+    assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    // Instantiate the POR.  Connect the digital power to user area 1
-    // VCCD, and connect the analog power to user area 1 VDDA.
-
-    // Monitor the 3.3V output with mprj_io[10] = gpio_analog[3]
-    // Monitor the 1.8V outputs with mprj_io[11,12] = io_out[11,12]
-
-    example_por por1 (
-	`ifdef USE_POWER_PINS
-	    .vdd3v3(vdda1),
-	    .vdd1v8(vccd1),
-	    .vss(vssa1),
-	`endif
-	.porb_h(gpio_analog[3]),	// 3.3V domain output
-	.porb_l(io11),			// 1.8V domain output
-	.por_l(io12)			// 1.8V domain output
-    );
-
-    // Instantiate 2nd POR with the analog power supply on one of the
-    // analog pins.  NOTE:  io_analog[4] = mproj_io[18] and is the same
-    // pad with io_clamp_high/low[0].
-
-    `ifdef USE_POWER_PINS
-	assign isupply = io_analog[4];
-    	assign io_clamp_high[0] = isupply;
-    	assign io_clamp_low[0] = vssa1;
-
-	// Tie off remaining clamps
-    	assign io_clamp_high[2:1] = vssa1;
-    	assign io_clamp_low[2:1] = vssa1;
-    `endif
-
-    // Monitor the 3.3V output with mprj_io[25] = gpio_analog[7]
-    // Monitor the 1.8V outputs with mprj_io[26,27] = io_out[15,16]
-
-    example_por por2 (
-	`ifdef USE_POWER_PINS
-	    .vdd3v3(isupply),
-	    .vdd1v8(vccd1),
-	    .vss(vssa1),
-	`endif
-	.porb_h(gpio_analog[7]),	// 3.3V domain output
-	.porb_l(io15),			// 1.8V domain output
-	.por_l(io16)			// 1.8V domain output
+    counter #(
+        .BITS(BITS)
+    ) counter(
+        .clk(clk),
+        .reset(rst),
+        .ready(wbs_ack_o),
+        .valid(valid),
+        .rdata(rdata),
+        .wdata(wbs_dat_i[BITS-1:0]),
+        .wstrb(wstrb),
+        .la_write(la_write),
+        .la_input(la_data_in[63:64-BITS]),
+        .count(count)
     );
 
 endmodule
 
+module counter #(
+    parameter BITS = 16
+)(
+    input clk,
+    input reset,
+    input valid,
+    input [3:0] wstrb,
+    input [BITS-1:0] wdata,
+    input [BITS-1:0] la_write,
+    input [BITS-1:0] la_input,
+    output reg ready,
+    output reg [BITS-1:0] rdata,
+    output reg [BITS-1:0] count
+);
+
+    always @(posedge clk) begin
+        if (reset) begin
+            count <= 1'b0;
+            ready <= 1'b0;
+        end else begin
+            ready <= 1'b0;
+            if (~|la_write) begin
+                count <= count + 1'b1;
+            end
+            if (valid && !ready) begin
+                ready <= 1'b1;
+                rdata <= count;
+                if (wstrb[0]) count[7:0]   <= wdata[7:0];
+                if (wstrb[1]) count[15:8]  <= wdata[15:8];
+            end else if (|la_write) begin
+                count <= la_write & la_input;
+            end
+        end
+    end
+
+endmodule
 `default_nettype wire

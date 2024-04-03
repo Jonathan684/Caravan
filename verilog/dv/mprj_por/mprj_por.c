@@ -16,13 +16,15 @@
  */
 
 // This include is relative to $CARAVEL_PATH (see Makefile)
-#include "verilog/dv/caravel/defs.h"
-
+// #include "verilog/dv/caravel/defs.h"
+// This include is relative to $CARAVEL_PATH (see Makefile)
+#include <defs.h>
+#include <stub.c>
 // --------------------------------------------------------
 
 void main()
 {
-    reg_spimaster_config = 0xa002;	// Enable, prescaler = 2
+    //reg_spimaster_config = 0xa002;	// Enable, prescaler = 2
 
     reg_mprj_datal = 0x00000000;
     reg_mprj_datah = 0x00000000;

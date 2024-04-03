@@ -124,16 +124,10 @@ module user_analog_project_wrapper (
 /*--------------------------------------*/
 
 user_analog_proj_example mprj (
-    `ifdef USE_POWER_PINS
-        .vdda1(vdda1),  // User area 1 3.3V power
-        .vdda2(vdda2),  // User area 2 3.3V power
-        .vssa1(vssa1),  // User area 1 analog ground
-        .vssa2(vssa2),  // User area 2 analog ground
-        .vccd1(vccd1),  // User area 1 1.8V power
-        .vccd2(vccd2),  // User area 2 1.8V power
-        .vssd1(vssd1),  // User area 1 digital ground
-        .vssd2(vssd2),  // User area 2 digital ground
-    `endif
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
 
     .wb_clk_i(wb_clk_i),
     .wb_rst_i(wb_rst_i),
@@ -156,27 +150,36 @@ user_analog_proj_example mprj (
     .la_oenb (la_oenb),
 
     // IO Pads
-    .io_in (io_in),
-    .io_in_3v3 (io_in_3v3),
-    .io_out(io_out),
-    .io_oeb(io_oeb),
+    
+    .io_in ({io_in[26:19],io_in[7:0]}),
+    .io_out({io_out[26:19],io_out[7:0]}),
+    .io_oeb({io_oeb[26:19],io_oeb[7:0]}),
+    
+    
+    // .io_in (io_in),
+    // .io_in_3v3 (io_in_3v3),
+    // .io_out(io_out),
+    // .io_oeb(io_oeb),
 
-    // GPIO-analog
-    .gpio_analog(gpio_analog),
-    .gpio_noesd(gpio_noesd),
 
-    // Dedicated analog
-    .io_analog(io_analog),
-    .io_clamp_high(io_clamp_high),
-    .io_clamp_low(io_clamp_low),
 
-    // Clock
-    .user_clock2(user_clock2),
+    // // GPIO-analog
+    // .gpio_analog(gpio_analog),
+    // .gpio_noesd(gpio_noesd),
+
+    // // Dedicated analog
+    // .io_analog(io_analog),
+    // .io_clamp_high(io_clamp_high),
+    // .io_clamp_low(io_clamp_low),
+
+    // // Clock
+    // .user_clock2(user_clock2),
 
     // IRQ
-    .irq(user_irq)
+    // .irq(user_irq)
 );
 
 endmodule	// user_analog_project_wrapper
 
 `default_nettype wire
+
