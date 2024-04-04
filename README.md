@@ -11,6 +11,16 @@
 
 The following project implements an analog circuit from which we want to extract samples with digital circuits, for example, schim triger, and then a counter so that they are later analyzed in the riscV. The riscV can then send the data to the outside of the chip by using the UART.
 
-:warning: | Use this sample project for analog user projects. 
+## Run magic
+
+    export PDK_ROOT=/usr/local/share/pdk/
+    sudo magic -T XR -rcfile $PDK_ROOT/sky130A/libs.tech/magic/sky130A.magicrc
+
+## Run xschem
+
+    cp /usr/local/share/pdk/sky130B/libs.tech/xschem/xschemrc .
+    xterm &
+    xschem
+
 
 Refer to [README](docs/source/index.rst) for this sample project documentation. 
