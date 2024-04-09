@@ -15,7 +15,7 @@
         "dir::../../verilog/gl/user_analog_proj_example.v"
     ],
     "EXTRA_LEFS": "dir::../../lef/user_analog_proj_example.lef",
-    "EXTRA_GDS_FILES": "dir::../../gds/ejemplo_1.gds",
+    "EXTRA_GDS_FILES": "dir::../../gds/user_analog_proj_example.gds",
     "EXTRA_LIBS": "dir::../../lib/user_analog_proj_example.lib",
     "EXTRA_SPEFS": [
         "user_analog_proj_example", 

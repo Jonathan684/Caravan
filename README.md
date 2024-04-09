@@ -4,9 +4,6 @@
 
 ---
 
-| :exclamation: Important Note            |
-|-----------------------------------------|
-
 ## Analog Chip
 
 The following project implements an analog circuit from which we want to extract samples with digital circuits, for example, schim triger, and then a counter so that they are later analyzed in the riscV. The riscV can then send the data to the outside of the chip by using the UART.
@@ -21,6 +18,13 @@ The following project implements an analog circuit from which we want to extract
     cp /usr/local/share/pdk/sky130B/libs.tech/xschem/xschemrc .
     xterm &
     xschem
+
+## Run netgen
+
+    ln -s /usr/share/pdk/sky130A/libs.tech/netgen/sky130A_setup.tcl setup.tcl
+    
+    netgen -batch lvs "../xschem/example_por.spice example_por" "../mag/example_por.spice example_por"
+    
 
 
 Refer to [README](docs/source/index.rst) for this sample project documentation. 
