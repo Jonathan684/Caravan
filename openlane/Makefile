@@ -14,7 +14,8 @@
 # SPDX-License-Identifier: Apache-2.0
 export CARAVEL_ROOT=/home/jona/Desktop/Proyecto_Final/caravan/caravel
 export OPENLANE_ROOT=/home/jona/Desktop/Proyecto_Final/caravan/dependencies/openlane_src
-
+export PDK_ROOT?=$(PWD)/../dependencies/pdks
+export PDK?=sky130A
 MAKEFLAGS+=--warn-undefined-variables
 
 export OPENLANE_RUN_TAG = $(shell date '+%y_%m_%d_%H_%M')

@@ -20,10 +20,9 @@
 `ifdef GL
     // Assume default net type to be wire because GL netlists don't have the wire definitions
     `default_nettype wire
-    `include "gl/user_project_wrapper.v"
-    `include "gl/user_proj_example.v"
+    `include "gl/user_analog_project_wrapper.v"
+    `include "gl/wb_buttons_leds.v"
 `else
     `include "user_analog_project_wrapper.v"
-    `include "user_analog_proj_example.v"
-    `include "example_por.v"
+    `include "wishbone-buttons-leds/wb_buttons_leds.v"
 `endif
