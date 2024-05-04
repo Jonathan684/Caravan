@@ -24,5 +24,5 @@
     `include "gl/wb_buttons_leds.v"
 `else
     `include "user_analog_project_wrapper.v"
-    `include "wishbone-buttons-leds/wb_buttons_leds.v"
+    `include "wb_buttons_leds.v"
 `endif
