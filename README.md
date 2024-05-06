@@ -28,6 +28,8 @@ The following project implements an analog circuit from which we want to extract
     magic -rcfile ~/usr/local/share/pdk/sky130A/libs.tech/magic/sky130A.magicrc
     magic -rcfile ~/home/jona/Desktop/Proyecto_Final/caravan/dependencies/pdks/sky130A/libs.tech/magic/sky130A.magicrc
 
+    En algunos casos, no es necesario utilizar 'sudo'.
+
 
 ## Run xschem
 
