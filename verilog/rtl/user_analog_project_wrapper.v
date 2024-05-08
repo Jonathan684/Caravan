@@ -149,9 +149,9 @@ wb_buttons_leds wb_buttons_leds (
     .wbs_dat_o  (wbs_dat_o),
 
     // buttons & leds
-    .buttons    (io_in[2:0]),
-    .leds       (io_out[10:3]),
-    .led_enb    (io_oeb[10:3])
+    .buttons    (io_in[9:7]),
+    .leds       (io_out[21:14]),
+    .led_enb    (io_oeb[21:14])
     
 );
 

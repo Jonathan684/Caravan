@@ -43,7 +43,8 @@ The following project implements an analog circuit from which we want to extract
     netgen -batch lvs "../xschem/example_por.spice example_por" "../mag/example_por.spice example_por"
     
 
+## Chip
 
-
+![Chip](docs/chip_caravan.png)
 
 Refer to [README](docs/source/index.rst) for this sample project documentation. 

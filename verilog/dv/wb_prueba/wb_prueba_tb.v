@@ -28,8 +28,8 @@ module wb_prueba_tb;
 	wire [7:0] leds; // 8 LEDS
 	reg [2:0] buttons = 0; // 3 Buttons
 
-	assign mprj_io[2:0] = buttons;
-    assign leds = mprj_io[10:3];
+	assign mprj_io[9:7] = buttons;
+    assign leds = mprj_io[32:25];
 
 	// External clock is used by default.  Make this artificially fast for the
 	// simulation.  Normally this would be a slow clock and the digital PLL
@@ -131,7 +131,7 @@ module wb_prueba_tb;
 		.vssd2	  (VSS),
 		.clock	  (clock),
 		.gpio     (gpio),
-        	.mprj_io  (mprj_io),
+        .mprj_io  (mprj_io),
 		.flash_csb(flash_csb),
 		.flash_clk(flash_clk),
 		.flash_io0(flash_io0),

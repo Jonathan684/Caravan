@@ -41,18 +41,19 @@ void main()
 
 	// Configure lower 8-IOs as user output
 	// Observe counter value in the testbench
-	reg_mprj_io_0 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
-	reg_mprj_io_1 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
-	reg_mprj_io_2 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+	// 5 - 6 uart
+		reg_mprj_io_7 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+		reg_mprj_io_8 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
+		reg_mprj_io_9 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
 
-	reg_mprj_io_3 =  GPIO_MODE_USER_STD_OUTPUT; // 1
-	reg_mprj_io_4 =  GPIO_MODE_USER_STD_OUTPUT; // 2
-	reg_mprj_io_5 =  GPIO_MODE_USER_STD_OUTPUT;	// 3
-	reg_mprj_io_6 =  GPIO_MODE_USER_STD_OUTPUT;	// 4
-	reg_mprj_io_7 =  GPIO_MODE_USER_STD_OUTPUT;	// 5
-	reg_mprj_io_8 =  GPIO_MODE_USER_STD_OUTPUT;	// 6
-	reg_mprj_io_9 =  GPIO_MODE_USER_STD_OUTPUT;	// 7
-	reg_mprj_io_10 =  GPIO_MODE_USER_STD_OUTPUT;// 8
+		reg_mprj_io_25 =  GPIO_MODE_USER_STD_OUTPUT; // 1
+		reg_mprj_io_26 =  GPIO_MODE_USER_STD_OUTPUT; // 2
+		reg_mprj_io_27 =  GPIO_MODE_USER_STD_OUTPUT; // 3
+		reg_mprj_io_28 =  GPIO_MODE_USER_STD_OUTPUT; // 4
+		reg_mprj_io_29 =  GPIO_MODE_USER_STD_OUTPUT; // 5
+		reg_mprj_io_30 =  GPIO_MODE_USER_STD_OUTPUT; // 6
+		reg_mprj_io_31 =  GPIO_MODE_USER_STD_OUTPUT; // 7
+		reg_mprj_io_32 =  GPIO_MODE_USER_STD_OUTPUT; // 8
 
 	reg_wb_enable=1;
 	/* Apply configuration */
